@@ -1,0 +1,142 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "slapper:entity",
+      "is_spawnable": true,
+      "is_summonable": true,
+      "is_experimental": false,
+      "scripts": {
+        "animate": [
+          "trigger_slapper"
+        ]
+      },
+      "animations": {
+        "trigger_slapper": "controller.animation.trigger_slapper"
+      }
+    },
+    "component_groups": {
+      "default": {
+        "minecraft:variant": {
+          "value": 0
+        }
+      },
+      "trigger": {
+        "minecraft:variant": {
+          "value": 1
+        }
+      },
+      "kill": {
+        "minecraft:despawn": {
+          "remove_child_entities": true
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "player"
+        ]
+      },
+      "minecraft:nameable": {
+        "always_show": true,
+        "allow_name_tag_renaming": true
+      },
+      "minecraft:breathable": {
+        "total_supply": 15,
+        "suffocate_time": 0,
+        "breathes_water": true
+      },
+      "minecraft:health": {
+        "value": 20,
+        "max": 20
+      },
+      "minecraft:damage_sensor": {
+        "triggers": {
+          "cause": "all",
+          "deals_damage": false
+        }
+      },
+      "minecraft:collision_box": {
+        "width": 0.6,
+        "height": 1.8
+      },
+      "minecraft:movement": {
+        "value": 0.43,
+        "max": 0.43
+      },
+      "minecraft:scale": {
+        "value": 1
+      },
+      "minecraft:interact": {
+        "interactions": [
+          {
+            "interact_text": "Remove the slapper!",
+            "on_interact": {
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "player"
+                  },
+                  {
+                    "test": "has_equipment",
+                    "domain": "hand",
+                    "subject": "other",
+                    "value": "barrier"
+                  }
+                ]
+              },
+              "event": "minecraft:kill"
+            }
+          },
+          {
+            "interact_text": "your_custom_text",
+            "on_interact": {
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "has_equipment",
+                    "domain": "hand",
+                    "subject": "other",
+				    "operator": "!=",
+                    "value": "name_tag"
+                  }
+                ]
+              },
+              "event": "minecraft:trigger"
+            }
+          }
+        ]
+      },
+      "minecraft:knockback_resistance": {
+        "value": 1
+      },
+      "minecraft:physics": {}
+    },
+    "events": {
+      "minecraft:default": {
+        "add": {
+          "component_groups": [
+            "default"
+          ]
+        }
+      },
+      "minecraft:trigger": {
+        "add": {
+          "component_groups": [
+            "trigger"
+          ]
+        }
+      },
+      "minecraft:kill": {
+        "add": {
+          "component_groups": [
+            "kill"
+          ]
+        }
+      }
+    }
+  }
+}
